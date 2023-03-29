@@ -33,6 +33,7 @@ const readAll = (req: Request, res: Response, next: NextFunction) => {
     }
 
     return Book.find(conditions)
+        .populate('author')
         .then((books) => res.status(200).json({ books }))
         .catch((error) => res.status(500).json({ error }));
 };
