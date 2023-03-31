@@ -27,7 +27,13 @@ const readBook = (req: Request, res: Response, next: NextFunction) => {
 };
 
 const readAll = (req: Request, res: Response, next: NextFunction) => {
-    return Book.find()
+    let conditions: { author?: string } = {};
+    if (req.query.author) {
+        conditions.author = req.query.author as string;
+    }
+
+    return Book.find(conditions)
+        .populate('author')
         .then((books) => res.status(200).json({ books }))
         .catch((error) => res.status(500).json({ error }));
 };
